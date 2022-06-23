@@ -1,162 +1,88 @@
-import { myKey } from './api.js';
+// import { myKey } from './api.js';
 
 console.log('Hello this is working.')
 
-// // hardcoded
-// let res = await fetch(`https://apt.openweathermap.org/data/2.5/weather?q=${cityName}&appid=&units=imperial`)
 
-// not hardcoded
-const weatherAPIKey = myKey;
+// const weatherAPIKey = myKey;
 const cityName = 'Chicago'
 
-// Get Weather info from form and displaying the info on our page
-{
-    async function getCurrentWeather(cityName){
-        let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${myKey}`)
-        console.log(res.json())
-        let data = await res.json()
-        return data[0]
-    }
+let myKey = 'ce88ed3ff653b765662f21cfe6eafcef';
 
 
-fetch('http://example.com/movies.json')
-  .then(response => response.json())
-  .then(data => console.log(data));
+// Function to request API data.
+async function getCurrentWeather(cityName){
+    let request = new Request(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${myKey}`);
+    let result = await fetch(request);
+    let response = await result.json();
+    console.log(response);
+}
+
+async function handleSubmit(e){ // <-- e for 'event'
+    e.preventDefault();
+    let cityName = e.target.cityName.value;
+    // let weatherData = await getCurrentWeather(cityName);
+    buildWeatherCard(cityName)
+    e.target.cityName.value = ''
+}
 
 
+async function buildWeatherCard(){
+    // Create card div
+    const card = document.createElement('div')
+    card.className = 'card'
 
-    async function buildWeatherCard(city){
-        // Create card div
-        const card = document.createElement('div')
-        card.className = 'card'
-        // // Create top image
-        // const image = document.createElement('img')
-        // image.className = 'card-img-top'
-        // image.src = country.flags.png
-        // // Add image to card div
-        // card.append(image)
+    // Create a card header div
+    const cardHeader = document.createElement('div')
+    cardHeader.className = 'card-header' 
 
+    // Create an h5 for card title
+    const cityTitle = document.createElement('h5');
+    cityTitle.className = 'card-title'
+    cityTitle.innerHTML = cityName
 
+    // Create a card body div
+    const cardBody = document.createElement('div')
+    cardBody.className = 'card-body'
 
-
-
-        async function handleSubmit(e){
-            e.preventDefault();
-            let cityName = e.target.cityName.value;
-            let weatherData = await getCurrentWeather(cityName);
-            await buildWeatherCard(country)
-            e.target.cityName.value = ''
-        }
-    
-    
-        const myForm = document.getElementsByTagName('form')[0];
-        myForm.addEventListener('submit', handleSubmit);
-    }
-    
-    
-
-
-
-
-        // Create a card body div
-        const cardBody = document.createElement('div')
-        cardBody.className = 'card-body'
+    // Create card body p tags (High, Low, Current, Feels Like)
+    const high = document.createElement('p');
+    high.className = 'card-text'
+    // high.innerHTML = `High: ${... .toLocaleString('en-US')}` // <--------
+  
+    const low = document.createElement('p');
+    low.className = 'card-text'
+    // low.innerHTML = `Low: ${... .toLocaleString('en-US')}` // <--------
+ 
+    const feels_like = document.createElement('p');
+    feels_like.className = 'card-text'
+    // feels_like.innerHTML = `Feels Like: ${... .toLocaleString('en-US')}` // <--------
         
-        // Add country and population
-        const cityTitle = document.createElement('h5');
-        cityTitle.className = 'card-title'
-        cityTitle.innerHTML = country.name.official // <----------
-        const population = document.createElement('p');
-        population.className = 'card-text'
-        population.innerHTML = `Population: ${country.population.toLocaleString('en-US')}`
-        
-        // Append to card body
-        cardBody.append(cityTitle)
-        cardBody.append(population)
-        
-        // Add card body to card
-        card.append(cardBody);
-
-        // Create column div
-        const col = document.createElement('div')
-        col.className = 'col-12 col-md-6 col-lg-3'
-
-        // Add card to column
-        col.append(card)
-
-        // Get the div for display country cards
-        const display = document.getElementById('countryDisplay');
-        // Add new column to the display
-        display.append(col)
-    }
-
-
-
-
-
-// // Create a scope
-// {
-//     // Set the navbar to dark
-//     let body = document.body;
-//     let children = body.children;
-//     let navBar = children[0];
-//     navBar.className = navBar.className.replaceAll('light', 'dark');
-
-
-//     // Set the buttons to be bootstrap style with colors
-//     let myButtonColors = ['primary', 'secondary', 'success', 'warning', 'danger', 'info'];
-
-//     myButtons = document.querySelectorAll('.col-2 > button');
-
-//     for (let i = 0; i < myButtons.length; i++){
-//         myButtons[i].className = `btn btn-${myButtonColors[i]} w-100`;
-//     }
-
-//     // Add a header under the buttons in the container
-
-//     // First create the element
-//     let newHeader = document.createElement('h4');
-//     newHeader.id = 'myHeader'
-//     newHeader.className = 'text-center mt-3';
-//     newHeader.innerHTML = 'Created by Brian and JavaScript';
-
-//     // Get the row with the buttons element
-//     let container = document.getElementsByClassName('row')[0]
-//     container.append(newHeader);
-// }
-
-
-// // Event Listeners
-// {
-//     // Create a function to change our element
-//     function changeElementColor(event){
-//         // console.log(event);
-//         // console.log(event.target);
-//         // console.log(event.target.style);
-//         let elementToChange = event.target
-//         if (elementToChange.style.color === 'black'){
-//             elementToChange.style.color = 'purple'
-//         }else{
-//             elementToChange.style.color = 'black'
-//         }
-//     }
-//     const myHeader = document.getElementById('myHeader')
+    const current = document.createElement('p');
+    current.className = 'card-text'
+    // current.innerHTML = `Current Weather: ${... .toLocaleString('en-US')}` // <--------
     
-//     myHeader.addEventListener('mouseenter', changeElementColor)
-// }
-
-
-// // Event Listeners for the buttons
-// {
-//     let ourColorButtons = document.querySelectorAll('.col-2 > button');
+    // Append to card body
+    cardBody.append(high)
+    cardBody.append(low)
+    cardBody.append(feels_like)
+    cardBody.append(current)
     
-//     let myButtonColors = ['primary', 'secondary', 'success', 'warning', 'danger', 'info'];
+    // Add card header & body to card
+    card.append(cardHeader);
+    card.append(cardBody);
 
-//     for (let i=0; i < ourColorButtons.length; i++){
-//         button = ourColorButtons[i];
-//         button.addEventListener('click', (e) => {
-//             let body = document.body;
-//             body.className = `bg-${myButtonColors[i]}`
-//         })
-//     }
-// }
+    // Create column div
+    const col = document.createElement('div')
+    col.className = 'col-12 col-md-6 col-lg-3'
+
+    // Add card to column
+    col.append(card)
+
+    // Get the div for display Weather cards
+    const display = document.getElementById('...'); // <-------- 
+    // Add new column to the display
+    display.append(col)
+}
+
+const myForm = document.getElementsByTagName('form')[0];
+myForm.addEventListener('submit', handleSubmit);
